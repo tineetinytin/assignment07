@@ -3,7 +3,8 @@ let form = document.querySelector('#addForm');
 let table = document.querySelector('#employees');
 
 // SET A COUNT VARIABLE TO DISPLAY NEXT TO EMPLOYEES HEADER
-
+let empCount = document.getElementById('empCount');
+let count = 0;
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -38,15 +39,15 @@ form.addEventListener('submit', (e) => {
     // CREATE THE DELETE BUTTON
       
     let deleteBtn = document.createElement('BUTTON');
-    // deleteBtn = newRow.insertCell(5);
+    deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
     deleteBtn.appendChild(document.createTextNode('X'));
-    newRow.appendChild(deleteBtn);
+    let cellBtn = newRow.insertCell(5);
+    cellBtn.appendChild(deleteBtn);
+    deleteBtn.addEventListener('click', deleteEmployee);
+    
     
     // RESET THE FORM
-    document.querySelector('#id').value = '';
-    document.querySelector('#name').value = '';
-    document.querySelector('#extension').value = '';
-    document.querySelector('#email').value = '';
+    form.reset(); 
     
 
 
@@ -54,34 +55,19 @@ form.addEventListener('submit', (e) => {
     document.querySelector('#id').focus();
 
     // INCREMENENT THE NUMBER OF EMPLOYEES IN THE TABLE
-    let empCount = document.querySelector('#empCount');
-    count = table.rows.length; 
-    console.log(count-1);
-    empCount.appendChild(count);
+    count++;
+    empCount.innerHTML = `${count}`;
+
+});
     
 
-    // let count = document.querySelector('#empCount');
-    // for(var i = 0; i < newRow; ++i);
-    // let totalRowCount = document.querySelector('#empCount');
-    // totalRowCount = table.rows.length; 
-    // totalRowCount.appendChild(totalRowCount-1);
-    // var tbodyRowCount = table.tBodies[0].rows.length; // 3
-
-
-    // count = () => {
-    //     var employeeCount = $('empCount');
-    //     employeeCount.innerHTML = 'Showing ' + employees.length + ' employees';
-    // };
-});
-
 // DELETE EMPLOYEE
-// newRow.addEventListener('click', (e) => {
-//     // CHECK TO SEE IF THE .delete CLASS EXISTS ON LI
-//     if (e.target.contains('delete')) {
-//         // CONFIRM THE DELETE
-//         if (confirm('Are you sure you want to delete this task?')) {
-//             // SELECT THE PARENT LI ELEMENT AND THEN DELETE IT
-//             newRow.removeChild(e.target.parentElement);
-//         }
-//     }
-// });
+    function deleteEmployee(e) {
+        if (e.target.classList.contains('delete')) {
+            if (confirm('Are you sure you want to delete this employee?')) {
+                employees.deleteRow(e.target.parentElement.parentElement.rowIndex);
+                count--;
+                empCount.innerHTML = count ? `${count}` : '';
+            }
+        }
+    }
