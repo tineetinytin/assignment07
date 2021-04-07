@@ -65,7 +65,7 @@ form.addEventListener('submit', (e) => {
     function deleteEmployee(e) {
         if (e.target.classList.contains('delete')) {
             if (confirm('Are you sure you want to delete this employee?')) {
-                employees.deleteRow(e.target.parentElement.parentElement.rowIndex);
+                table.deleteRow(e.target.parentElement.parentElement.rowIndex);
                 count--;
                 empCount.innerHTML = count ? `${count}` : '';
             }
